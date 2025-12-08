@@ -49,6 +49,35 @@ document.querySelector('.arrow-right').addEventListener('click', () => {
 
 showFeatured();
 
+// Newsletter email validation
+const newsletterInput = document.querySelector(".newsletter-input");
+const newsletterBtn = document.querySelector(".newsletter-btn");
+
+if (newsletterBtn && newsletterInput) {
+    newsletterBtn.addEventListener("click", () => {
+        const email = newsletterInput.value.trim();
+
+        // Empty check
+        if (!email) {
+            newsletterInput.style.borderColor = "red";
+            alert("Please enter an email address.");
+            return;
+        }
+
+        // HTML5 email validity check
+        if (!newsletterInput.checkValidity()) {
+            newsletterInput.style.borderColor = "red";
+            alert("Please enter a valid email address.");
+            return;
+        }
+
+        // Success
+        newsletterInput.style.borderColor = "#ccc";
+        alert("Thank you for subscribing!");
+        newsletterInput.value = "";
+    });
+}
+
 // Product grid
 const grid = document.getElementById("productGrid");
 grid.innerHTML = "";
