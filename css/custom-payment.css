@@ -1,0 +1,121 @@
+.checkout-section h2 {
+    margin-top: 40px;   
+}
+.payment-option {
+    display: flex;
+    gap: 30px;
+    border: 2px solid #ddd;
+    border-radius: 1px;
+    cursor: pointer;
+    background: #fff;
+    padding: 25px !important;
+}
+.payment-title {
+    margin-bottom: 10px !important;
+    font-weight: bold; 
+}
+.payment-option p {
+    margin-bottom: 15px !important;
+}
+.payment-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 25px !important;  
+}
+.payment-option input[type="radio"] {
+    margin-top: 5px;
+}
+.payment-option:has(input[type="radio"]:checked) {
+    border-color: black;
+    background: #fdfdfd;
+}
+.payment-option:hover {
+    border-color: #888;
+}
+.credit-option p {
+    color: #555;
+}
+.paypal-option .payment-content {
+    display: grid;
+    grid-template-columns: 1fr auto; 
+    align-items: center;
+    gap: 20px;
+}
+.paypal-text p {
+    font-size: 0.9em;
+    color: #555;
+}
+.paypal-logo-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+.paypal-logo {
+    height: 100px;
+    width: auto;
+}
+.cart-summary {
+    margin-top: .3%;
+    margin-right: 2.5%;
+}
+.summary-item-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 5%;
+}
+.summary-item-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+.summary-item-info {
+    display: flex;
+    flex-direction: column;
+}
+.summary-item-name {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.summary-item-price {
+    font-weight: 500;
+}
+.checkout-container {
+    display: block;
+}
+.cart-items {
+    margin-bottom: 25px;
+}
+@media (min-width: 768px) {
+    .payment-fields .form-row {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;    
+        width: 100% !important;
+        align-items: center !important;
+    }
+    .payment-fields .full-input {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 12px !important;
+    }
+    .payment-fields .half-input {
+        flex: 0 0 48% !important;
+        max-width: 48% !important;
+    }
+    .payment-fields input[name="cardName"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        margin-top: 10px !important;
+        max-height: 20%;
+    }
+    .payment-fields input {
+        height: 48px !important;     
+        line-height: 48px !important;
+        padding: 0 12px !important;  
+        box-sizing: border-box !important;
+    }
+    .payment-fields .form-row {
+        align-items: center !important;
+    }
+}

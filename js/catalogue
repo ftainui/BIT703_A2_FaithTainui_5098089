@@ -1,0 +1,418 @@
+// Products in Aoteroa Adventure Gear catalogue
+const products = [
+  {
+    id: 1,
+    name: "Backpack and Mat Combo",
+    price: 300,
+    stars: 5,
+    img: "images/backpack-mat.jpg",
+    description: "This backpack and mat combo is perfect for hikers who need comfort and convenience on the go. Durable materials ensure your essentials stay safe while the mat provides a comfortable resting spot anywhere.",
+    category: "Camping",
+    models: ["Small", "Large"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Alice J.",
+        date: "2025-11-15",
+        rating: 5,
+        text: "Love this combo! Very comfortable and sturdy."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Tom R.",
+        date: "2025-11-18",
+        rating: 4,
+        text: "Good quality, the mat could be a bit thicker."
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: "Backpack",
+    price: 150,
+    stars: 4,
+    img: "images/backpacks.jpg",
+    description: "A versatile and stylish backpack designed for everyday use or outdoor adventures. Spacious compartments keep your gear organized and easy to access.",
+    category: "Hiking",
+    models: ["Red", "Blue", "Camo"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Emma S.",
+        date: "2025-11-12",
+        rating: 4,
+        text: "Spacious and comfortable, perfect for hiking."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Liam T.",
+        date: "2025-11-16",
+        rating: 5,
+        text: "Great backpack! Durable and looks good too."
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: "Essentials Kit",
+    price: 100,
+    stars: 3,
+    img: "images/essentials-kit.jpg",
+    description: "Our hiking essentials kit includes a 500mL Water Flask, pair of binoculars, 10 metres of rope, multipurpose pocket knife, and compass. Everything you need for a safe and enjoyable outdoor adventure in one compact kit.",
+    category: "Accessories",
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Sophia K.",
+        date: "2025-11-10",
+        rating: 3,
+        text: "Useful kit but some items feel cheap."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Ethan B.",
+        date: "2025-11-14",
+        rating: 4,
+        text: "Good starter kit for beginners."
+      }
+    ]
+  },
+  {
+    id: 4,
+    name: "Bulls NVX bike",
+    price: 500,
+    stars: 5,
+    img: "images/bulls-nvx-bike.jpg",
+    description: "The Bulls NVX bike combines speed, comfort, and durability for all types of terrain. Perfect for both casual riders and serious cycling enthusiasts.",
+    category: "Sports",
+    models: ["Red", "Blue", "Black"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Jack H.",
+        date: "2025-11-08",
+        rating: 5,
+        text: "Amazing bike! Smooth ride and very reliable."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Olivia F.",
+        date: "2025-11-11",
+        rating: 5,
+        text: "High quality, worth every penny."
+      }
+    ]
+  },
+  {
+    id: 5,
+    name: "Sevylor Colorado Pro Kayak",
+    price: 250,
+    stars: 4,
+    img: "images/kayak.jpg",
+    description: "This inflatable Sevylor Colorado Pro Kayak is ideal for lakes, rivers, and calm seas. Lightweight and easy to carry, it provides a stable and fun paddling experience.",
+    category: "Sports",
+    models: ["Adult", "Child"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Mia L.",
+        date: "2025-11-09",
+        rating: 4,
+        text: "Very stable and easy to inflate. Great fun on the lake."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Noah D.",
+        date: "2025-11-13",
+        rating: 4,
+        text: "Good kayak for casual paddling."
+      }
+    ]
+  },
+  {
+    id: 6,
+    name: "Lantern",
+    price: 50,
+    stars: 3,
+    img: "images/lantern.jpg",
+    description: "A solar-powered lantern that lights up your campsite efficiently and sustainably. Compact and easy to carry for all your outdoor adventures.",
+    category: "Camping",
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Ella M.",
+        date: "2025-11-07",
+        rating: 3,
+        text: "Good brightness but battery life could be longer."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Ryan P.",
+        date: "2025-11-10",
+        rating: 4,
+        text: "Compact and easy to carry, works well."
+      }
+    ]
+  },
+  {
+    id: 7,
+    name: "Sleeping bag",
+    price: 100,
+    stars: 5,
+    img: "images/sleeping-bags.jpg",
+    description: "Comfortable sleeping bag designed to keep you warm during cold nights. Lightweight and portable, perfect for camping and hiking trips.",
+    category: "Camping",
+    models: ["Brown", "Blue", "Red"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Zoe R.",
+        date: "2025-11-05",
+        rating: 5,
+        text: "Extremely warm and cozy. Love it!"
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Ben C.",
+        date: "2025-11-08",
+        rating: 5,
+        text: "Lightweight and perfect for backpacking."
+      }
+    ]
+  },
+  {
+    id: 8,
+    name: "Tent",
+    price: 450,
+    stars: 4,
+    img: "images/tent.jpg",
+    description: "A durable and weather-resistant tent designed for all-season camping. Easy to set up, it provides a cozy and safe shelter wherever you go.",
+    category: "Camping",
+    models: ["Red", "Blue"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Lily N.",
+        date: "2025-11-06",
+        rating: 4,
+        text: "Good quality tent, easy to set up."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Sam K.",
+        date: "2025-11-09",
+        rating: 4,
+        text: "Spacious and sturdy. Ideal for family trips."
+      }
+    ]
+  },
+  {
+    id: 9,
+    name: "Thermal Coffee Flask and Mug",
+    price: 40,
+    stars: 5,
+    img: "images/thermal-coffee-flask.jpg",
+    description: "Keep your drinks hot or cold with this insulated thermal coffee flask and mug. Perfect for camping trips, hikes, or your daily commute.",
+    category: "Accessories",
+    models: ["500mL", "1L"],
+    reviews: [
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Chloe W.",
+        date: "2025-11-04",
+        rating: 5,
+        text: "Keeps drinks hot all day! Very happy."
+      },
+      {
+        userImg: "images/profile-picture.png",
+        userName: "Leo G.",
+        date: "2025-11-07",
+        rating: 4,
+        text: "Good thermal mug, easy to carry."
+      }
+    ]
+  },
+  {
+    id: 10,
+    name: "Hiking Boots",
+    price: 250,
+    stars: 5,
+    img: "images/hiking-boots.jpg",
+    description: "Durable hiking boots designed for comfort and support on rugged trails. Waterproof and breathable to keep your feet dry on every adventure.",
+    category: "Hiking",
+    models: ["EU 38", "EU 39", "EU 40", "EU 41", "EU 42"],
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Grace H.",
+      date: "2025-11-12",
+      rating: 5,
+      text: "Super comfortable and sturdy. Perfect for long hikes!"
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Oscar L.",
+      date: "2025-11-15",
+      rating: 5,
+      text: "Excellent boots. Waterproof and very supportive."
+    }
+  ]
+  },
+    {
+    id: 11,
+    name: "Hiking Poles",
+    price: 50,
+    stars: 3,
+    img: "images/hiking-poles.jpg",
+    description: "Lightweight hiking poles designed for stability and comfort on all terrains. Adjustable length ensures the perfect fit for every adventurer.",
+    category: "Hiking",
+    models: ["Blue", "Black"],
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Megan S.",
+      date: "2025-11-11",
+      rating: 3,
+      text: "Good for light hikes, but a bit flimsy for rocky trails."
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Henry J.",
+      date: "2025-11-13",
+      rating: 4,
+      text: "Lightweight and adjustable. Works well on most trails."
+    }
+  ]
+  },
+    {
+    id: 12,
+    name: "Thermal Water Bottle",
+    price: 30,
+    stars: 5,
+    img: "images/thermal-bottle.jpg",
+    description: "Keep your drinks hot or cold for hours with this durable thermal water bottle. Ideal for hiking, camping, or everyday use.",
+    category: "Hiking",
+    models: ["White", "Black"],
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Sophia W.",
+      date: "2025-11-10",
+      rating: 5,
+      text: "Keeps my water cold all day. Love it!"
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Daniel R.",
+      date: "2025-11-14",
+      rating: 5,
+      text: "Excellent thermal bottle. Very durable and easy to clean."
+    }
+  ]
+  },
+    {
+    id: 13,
+    name: "Toprak 1 Jet Ski",
+    price: 980,
+    stars: 4,
+    img: "images/jet-ski.jpg",
+    description: "Experience high-speed fun on the water with the Toprak 1 Jet Ski. Built for performance, stability, and endless summer adventures.",
+    category: "Sports",
+    models: ["One seat", "Two seats"],
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Liam K.",
+      date: "2025-11-09",
+      rating: 4,
+      text: "Super fun on the lake, stable at high speed."
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Zara T.",
+      date: "2025-11-12",
+      rating: 4,
+      text: "Exciting ride, very responsive and sturdy."
+    }
+  ]
+  },
+    {
+    id: 14,
+    name: "Kettle",
+    price: 30,
+    stars: 5,
+    img: "images/kettle.jpg",
+    description: "Boil water quickly and efficiently with this compact kettle. Perfect for camping trips or your kitchen countertop.",
+    category: "Accessories",
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Ella B.",
+      date: "2025-11-08",
+      rating: 5,
+      text: "Boils quickly and very easy to carry on trips."
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Ryan M.",
+      date: "2025-11-11",
+      rating: 5,
+      text: "Compact and reliable. Perfect for camping."
+    }
+  ]
+  },
+  {
+    id: 15,
+    name: "Paddleboard",
+    price: 150,
+    stars: 3.5,
+    img: "images/paddleboard.jpg",
+    description: "A lightweight paddleboard perfect for calm lakes and rivers. Easy to transport and ideal for beginners and casual paddlers.",
+    category: "Sports",
+    models: ["Adult", "Child"],
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Mia R.",
+      date: "2025-11-07",
+      rating: 4,
+      text: "Fun to use on calm water, stable enough for beginners."
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Ethan S.",
+      date: "2025-11-10",
+      rating: 3,
+      text: "Lightweight and easy to carry, but wobbly at times."
+    }
+  ]
+  },
+    {
+    id: 16,
+    name: "Hammock",
+    price: 80,
+    stars: 5,
+    img: "images/hammock.jpg",
+    description: "Comfortable and durable hammock for relaxing outdoors. Quick to set up and perfect for camping or backyard lounging.",
+    category: "Accessories",
+    models: ["Blue", "Black", "Camo"],
+    reviews: [
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Olivia R.",
+      date: "2025-11-06",
+      rating: 5,
+      text: "Extremely comfortable and easy to hang. Perfect for relaxing."
+    },
+    {
+      userImg: "images/profile-picture.png",
+      userName: "Noah P.",
+      date: "2025-11-09",
+      rating: 5,
+      text: "Strong and cozy hammock. Works great outdoors."
+    }
+  ]
+  },
+];
+
+const featuredIds = [1, 2]; // IDs of items featured

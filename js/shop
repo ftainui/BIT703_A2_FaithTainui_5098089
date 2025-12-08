@@ -1,0 +1,227 @@
+// Allow search with spelling mistakes
+function levenshtein(a = "", b = "") {
+    a = String(a);
+    b = String(b);
+    const dp = Array.from({ length: a.length + 1 }, () =>
+        Array(b.length + 1).fill(0)
+    );
+    for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+    for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+
+    for (let i = 1; i <= a.length; i++) {
+        for (let j = 1; j <= b.length; j++) {
+            if (a[i - 1] === b[j - 1]) dp[i][j] = dp[i - 1][j - 1];
+            else dp[i][j] =
+                1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+        }
+    }
+    return dp[a.length][b.length];
+}
+
+// Check if product matches search query
+function isSimilar(product, query) {
+    if (!query) return false;
+    const q = String(query).toLowerCase();
+    const fields = [
+        product.name || "",
+        product.category || "",
+        product.description || "",
+    ];
+
+    return fields.some((field) => {
+        const f = String(field).toLowerCase();
+        if (!f) return false;
+        if (f.includes(q)) return true;
+
+        const dist = levenshtein(f, q);
+        const threshold = Math.max(
+            1,
+            Math.floor(Math.min(f.length, q.length) * 0.25)
+        );
+        return dist <= threshold;
+    });
+}
+
+// DOM references
+const featuredCategoriesGrid = document.querySelector(
+    ".featured-categories-grid"
+);
+const resultsTitle = document.getElementById("results-title");
+const resultsGrid = document.querySelector(".display-products-grid");
+const browseGrid = document.querySelector(".browse-products-grid");
+const searchForm = document.querySelector(".shop-search-form");
+
+// Featured categories grid
+const categories = [
+    { name: "Hiking", img: "images/hiking-poles.jpg" },
+    { name: "Sports", img: "images/bulls-nvx-bike.jpg" },
+    { name: "Camping", img: "images/tent.jpg" },
+];
+
+// Clear to avoid duplicates
+featuredCategoriesGrid.innerHTML = "";
+
+// Show 3 categories
+categories.forEach((category) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "category-card"; 
+
+    wrapper.innerHTML = `
+        <a href="shop.html?category=${encodeURIComponent(
+            category.name.toLowerCase()
+        )}" class="category-item">
+            <img src="${category.img}" alt="${category.name}">
+            <p class="category-name">${category.name}</p>
+        </a>
+    `;
+
+    featuredCategoriesGrid.appendChild(wrapper);
+});
+
+// Shop all button
+const shopAll = document.createElement("div");
+shopAll.className = "category-card";
+
+shopAll.innerHTML = `
+    <a href="shop.html" class="shop-all-btn">
+        Shop All
+    </a>
+`;
+
+featuredCategoriesGrid.appendChild(shopAll);
+
+// Display products
+function renderProducts(productList = [], title = "") {
+    // Update search heading
+    if (resultsTitle) {
+        resultsTitle.style.display = productList.length ? "block" : "none";
+        resultsTitle.textContent = title;
+    }
+
+    resultsGrid.innerHTML = "";
+
+    if (!productList.length) {
+        resultsGrid.innerHTML = `<p>No products found.</p>`;
+        return;
+    }
+
+    productList.forEach((product) => {
+        const div = document.createElement("div");
+        div.classList.add("product-item-categories");
+
+        div.innerHTML = `
+            <img src="${product.img}" alt="${product.name}">
+            <div class="product-info-categories text-center">
+                <p class="product-name">${product.name}</p>
+                <p class="product-stars">
+                    ${"★".repeat(product.stars)}${"☆".repeat(
+            5 - product.stars
+        )}
+                </p>
+                <p class="product-price">$${product.price}</p>
+            </div>
+        `;
+
+        div.addEventListener("click", () => {
+            window.location.href = `product_detail.html?id=${product.id}`;
+        });
+
+        resultsGrid.appendChild(div);
+    });
+}
+
+// Browse grid
+if (browseGrid) {
+    browseGrid.innerHTML = "";
+
+    products.slice(0, 6).forEach((product) => {
+        const div = document.createElement("div");
+        div.className = "product-item-browse";
+
+        div.innerHTML = `
+            <img src="${product.img}" alt="${product.name}">
+            <div class="product-info-browse">
+                <p class="product-name">${product.name}</p>
+                <p class="product-stars">
+                    ${"★".repeat(product.stars)}${"☆".repeat(
+            5 - product.stars
+        )}
+                </p>
+                <p class="product-price">$${product.price}</p>
+            </div>
+        `;
+
+        div.addEventListener("click", () => {
+            window.location.href = `product_detail.html?id=${product.id}`;
+        });
+
+        browseGrid.appendChild(div);
+    });
+}
+
+// URL based filtering
+const urlParams = new URLSearchParams(window.location.search);
+const rawQuery = urlParams.get("q") || "";
+const searchQuery = rawQuery.trim().toLowerCase();
+const categoryFilter = (urlParams.get("category") || "")
+    .trim()
+    .toLowerCase();
+
+let filtered = products.slice();
+
+if (categoryFilter) {
+    filtered = filtered.filter((p) =>
+        p.category.toLowerCase() === categoryFilter
+    );
+}
+
+if (searchQuery) {
+    filtered = filtered.filter((p) => isSimilar(p, searchQuery));
+}
+
+if (categoryFilter || searchQuery) {
+    const heading = categoryFilter
+        ? `Showing: ${categoryFilter.charAt(0).toUpperCase() + categoryFilter.slice(1)}`
+        : `Results for "${rawQuery}"`;
+
+    renderProducts(filtered, heading);
+}
+
+// Search bar
+if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const q = searchForm.querySelector("input[name='q']").value.trim();
+        if (!q) return;
+
+        const results = products.filter((p) => isSimilar(p, q));
+        renderProducts(results, `Results for "${q}"`);
+
+        // Update URL without reload
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.set("q", q);
+        newUrl.searchParams.delete("category");
+        window.history.replaceState({}, "", newUrl);
+    });
+}
+
+// Shop all button
+document.querySelectorAll(".shop-all-btn, .browse-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        renderProducts(products, "All Products");
+
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.delete("category");
+        newUrl.searchParams.delete("q");
+        window.history.replaceState({}, "", newUrl);
+    });
+});
+
+// Cart counter functionality
+const cartCountEl = document.getElementById("cart-count");
+if (cartCountEl) {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    cartCountEl.textContent = totalQty;
+}

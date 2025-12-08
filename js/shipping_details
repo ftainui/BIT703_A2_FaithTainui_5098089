@@ -1,0 +1,200 @@
+// Wait for page load before running scripts
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Prevent cart JS from running on other pages
+    if (!document.getElementById("shipping-form")) return;
+
+    // Get page elements
+    const summaryContainer = document.getElementById("summary-items");
+    const subtotalEl = document.getElementById("subtotal");
+    const shippingEl = document.getElementById("shipping-cost");
+    const taxesEl = document.getElementById("taxes");
+    const totalEl = document.getElementById("total");
+
+    const backBtn = document.getElementById("back-to-cart");
+    const nextBtn = document.getElementById("next-to-payment");
+    const shippingForm = document.getElementById("shipping-form");
+
+    // Get cart items
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Build order summary
+    {
+        let subtotal = 0;
+        summaryContainer.innerHTML = "";
+
+        cart.forEach(item => {
+            const product = products.find(p => p.id === item.id);
+            if (!product) return;
+
+            const row = document.createElement("div");
+            row.className = "summary-item-row";
+
+            row.innerHTML = `
+                <div class="summary-item-image">
+                    <img src="${product.img}" alt="${product.name}">
+                </div>
+                <div class="summary-item-info">
+                    <span class="summary-item-name">${product.name}</span>
+                    <span class="summary-item-price">$${(product.price * item.qty).toFixed(2)}</span>
+                </div>
+            `;
+            summaryContainer.appendChild(row);
+
+            subtotal += product.price * item.qty;
+        });
+
+        // Calculate shipping
+        let shippingCost = 0;
+        const selectedShipping = document.querySelector("input[name='shipping']:checked");
+
+        if (selectedShipping) shippingCost = selectedShipping.value === "nextday" ? 20 : 0;
+
+        const taxes = subtotal * 0.15;
+        const total = subtotal + shippingCost + taxes;
+
+        // Add shipping cost to total
+        subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        shippingEl.textContent = `$${shippingCost.toFixed(2)}`;
+        taxesEl.textContent = `$${taxes.toFixed(2)}`;
+        totalEl.textContent = `$${total.toFixed(2)}`;
+
+        // Update total when shipping method changes
+        document.querySelectorAll("input[name='shipping']").forEach(radio => {
+            radio.addEventListener("change", () => {
+                const newShipping = radio.value === "nextday" ? 20 : 0;
+                shippingEl.textContent = `$${newShipping.toFixed(2)}`;
+                totalEl.textContent = `$${(subtotal + newShipping + taxes).toFixed(2)}`;
+            });
+        });
+    }
+
+    // Back button
+    if (backBtn) {
+        backBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "shopping_cart.html";
+        });
+    }
+
+
+    // Validation functions for input
+    function showError(input) {
+        input.style.borderColor = "red";
+        input.classList.add("error");
+    }
+
+    function showSuccess(input) {
+        input.style.borderColor = "#ccc";
+        input.classList.remove("error");
+    }
+
+    // Highlight empty fields
+    function checkRequired(inputs) {
+        inputs.forEach(input => {
+            if (input.value.trim() === "") {
+                showError(input);
+            } else {
+                showSuccess(input);
+            }
+        });
+    }
+
+    // Check if input matches required length
+    function checkLength(input, min, max) {
+        const len = input.value.trim().length;
+        if (len < min || len > max) {
+            showError(input);
+        } else {
+            showSuccess(input);
+        }
+    }
+
+
+    // Obtain user inputs
+    const countrySelect = document.querySelector("select[name='country']");
+    const postalInput = document.querySelector("input[placeholder='Postal Code']");
+    const phoneInput = document.querySelector("input[placeholder='Phone Number']");
+    const firstName = document.querySelector("input[placeholder='First Name']");
+    const lastName = document.querySelector("input[placeholder='Last Name']");
+    const address = document.querySelector("input[placeholder='Address']");
+    const city = document.querySelector("input[placeholder='City']");
+
+    // Check postal address
+    const postalPatterns = {
+        NZ: /^\d{4}$/,
+        AUS: /^\d{4}$/
+    };
+
+    // Check phone number
+    const phonePattern = /^\+?\d{6,15}$/;
+
+
+    // Validate inputs and next button
+    if (nextBtn) {
+        nextBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            checkRequired([
+                firstName, lastName, address, city, postalInput, phoneInput
+            ]);
+
+            checkLength(firstName, 3, 35);
+            checkLength(lastName, 3, 35);
+            checkLength(city, 3, 26);
+
+            let valid = true;
+
+            // Postcode
+            const selectedCountry = countrySelect.value;
+            if (!postalPatterns[selectedCountry].test(postalInput.value.trim())) {
+                showError(postalInput);
+                alert("Invalid postal format for the selected country.");
+                valid = false;
+            }
+
+            // Phone number
+            if (!phonePattern.test(phoneInput.value.trim())) {
+                showError(phoneInput);
+                alert("Phone must be 6–15 digits, optional + sign.");
+                valid = false;
+            }
+
+            // If any errors exist stop
+            if (document.querySelector(".error") || !valid) {
+                return;
+            }
+
+            // HTML5 validation and minlength validation
+            if (!shippingForm.checkValidity()) {
+                shippingForm.reportValidity();
+                return;
+            }
+            
+            // Save shipping data
+            const shippingData = {};
+
+            shippingForm.querySelectorAll("input, select").forEach(input => {
+                if (input.type === "radio") {
+                    if (input.checked) {
+                        shippingData.shippingMethod = input.value;
+                    }
+                } else {
+                    shippingData[input.name] = input.value;
+                }
+            });
+
+            localStorage.setItem("shippingAddress", JSON.stringify(shippingData));
+
+            window.location.href = "payment_options.html";
+        });
+    }
+
+    // Cart counter functionality
+    const cartCountEl = document.getElementById("cart-count");
+    if (cartCountEl) {
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        cartCountEl.textContent = totalQty;
+    }
+
+});

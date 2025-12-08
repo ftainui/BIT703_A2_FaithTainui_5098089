@@ -1,0 +1,100 @@
+// Banner 
+const homeBannerGrid = document.querySelector('.home-banner-product-grid');
+
+products.slice(0, 3).forEach(product => {
+    const img = document.createElement('img');
+    img.src = product.img;
+    img.alt = `Image of ${product.name}`;
+    img.classList.add('banner-image'); 
+    homeBannerGrid.appendChild(img);
+});
+
+// Featured products
+let featuredProducts = products.filter(p => p.stars === 5);
+
+const featuredGrid = document.querySelector('.featured-grid');
+let currentIndex = 0;
+
+function showFeatured() {
+    const secondIndex = (currentIndex + 1) % featuredProducts.length;
+
+    const product1 = featuredProducts[currentIndex];
+    const product2 = featuredProducts[secondIndex];
+
+    featuredGrid.innerHTML = `
+        <a class="featured-item col-6" href="product_detail.html?id=${product1.id}">
+            <img src="${product1.img}" alt="${product1.name}">
+            <p class="product-name">${product1.name}</p>
+            <p class="product-price">$${product1.price}</p>
+        </a>
+
+        <a class="featured-item col-6" href="product_detail.html?id=${product2.id}">
+            <img src="${product2.img}" alt="${product2.name}">
+            <p class="product-name">${product2.name}</p>
+            <p class="product-price">$${product2.price}</p>
+        </a>
+    `;
+}
+
+// Arrows
+document.querySelector('.arrow-left').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + featuredProducts.length) % featuredProducts.length;
+    showFeatured();
+});
+
+document.querySelector('.arrow-right').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % featuredProducts.length;
+    showFeatured();
+});
+
+showFeatured();
+
+// Product grid
+const grid = document.getElementById("productGrid");
+grid.innerHTML = "";
+
+products.slice(0, 5).forEach((product, i) => {
+    const link = document.createElement("a");
+    link.href = `product_detail.html?id=${product.id}`;
+    link.classList.add("product-item");
+
+    if (i === 0) {
+        link.classList.add("big-product");
+        link.innerHTML = `
+            <div class="product-img-wrapper-big">
+                <img src="${product.img}" alt="${product.name}">
+            </div>
+            <div class="product-info">
+                <div>
+                    <p class="product-name">${product.name}</p>
+                    <p class="product-price">$${product.price}</p>
+                </div>
+                <p class="product-stars">${"★".repeat(product.stars)}</p>
+            </div>
+        `;
+    } else {
+        link.classList.add("small-product");
+        link.innerHTML = `
+            <div class="product-img-wrapper-small">
+                <img src="${product.img}" alt="${product.name}">
+            </div>
+            <div class="product-info">
+                <div>
+                    <p class="product-name">${product.name}</p>
+                    <p class="product-price">$${product.price}</p>
+                </div>
+                <p class="product-stars">${"★".repeat(product.stars)}</p>
+            </div>
+        `;
+    }
+
+    grid.appendChild(link);
+});
+
+// Cart counter functionality
+const cartCountEl = document.getElementById("cart-count");
+if (cartCountEl) {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    cartCountEl.textContent = totalQty;
+}

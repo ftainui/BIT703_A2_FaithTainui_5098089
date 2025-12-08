@@ -1,0 +1,119 @@
+/* ------------------- NAVBAR GLOBAL ------------------- */
+.navbar.custom-nav {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e6eef2;
+    padding: 10px 0;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+.nav-logo img {
+    max-width: 150px !important;
+    height: auto;
+}
+.nav-search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    min-width: 140px;
+}
+.nav-search button, .nav-search input[type="search"] {
+    padding: 8px 12px;
+    border: 2px solid #7b7b7b;
+    font-size: 15px;
+}
+.nav-search input[type="search"] {
+    width: 65%;
+    border-left: none;
+    outline: none;
+}
+.nav-search button {
+    border-right: none;
+    background: #ffffff;
+    color: #7b7b7b;
+    cursor: pointer;
+}
+/* ------------------- NAV LINKS ------------------- */
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 16px;
+}
+.nav-links .nav-link {
+    padding: 6px 8px !important;
+    color: #6c6c6c !important;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.nav-links a { 
+    text-decoration: none; 
+    color: #6c6c6c; 
+    font-weight: 500; 
+    padding: 6px 8px; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+.nav-links li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 16px;
+    width: 1px;
+    background: #ccc; 
+}
+.nav-link:hover {
+    color: #2f4b4d !important;
+}
+/* ------------------- CART BUTTON ------------------- */
+.cart-link {
+    background: #2595be81 !important;
+    color: #fff !important;
+    padding: 6px 12px !important;
+    border-radius: 6px;
+    font-weight: 600;
+}
+.cart-link i {
+    color: white !important;
+}
+.cart-link:hover {
+    background: #2596be !important;
+}
+.nav-links li {
+    margin-bottom: 8px;
+}
+.cart-count {
+    background: #ff3b3b;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-left: 6px;
+    font-weight: bold;
+}
+@media (min-width: 992px) {
+    .nav-links li {
+        position: relative;
+        padding-right: 12px;
+        margin-bottom: 0;
+    }
+
+    .nav-links li:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        height: 16px;
+        width: 1px;
+        background: #ccc;
+        transform: translateY(-50%);
+    }
+}

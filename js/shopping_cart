@@ -1,0 +1,130 @@
+// Wait for page load before running scripts
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // Get cart elements
+    const cartItemsList = document.getElementById("cart-items-list");
+
+    // Prevent cart JS from running on other pages
+    if (!document.getElementById("cart-items-list")) {return;}
+
+    // Get page elements
+    const subtotalEl = document.getElementById("subtotal");
+    const shippingEl = document.getElementById("shipping-cost");
+    const taxesEl = document.getElementById("taxes");
+    const totalEl = document.getElementById("total");
+
+    // Load saved cart or start empty
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Disable next button if cart is empty
+    if (!cart.length) {
+        cartItemsList.innerHTML = "<p>Your cart is empty.</p>";
+
+        const nextBtn = document.getElementById("next-btn");
+        if (nextBtn) {
+            nextBtn.disabled = true;
+            nextBtn.classList.add("disabled");
+        }
+        return;
+    }
+
+    let subtotal = 0;
+
+    // Display cart items
+    cart.forEach(item => {
+        const product = products.find(p => p.id === item.id); 
+        const row = document.createElement("div");
+        row.classList.add("cart-item-row");
+
+        row.innerHTML = `
+            <img src="${product.img}" alt="${product.name}">
+            <div class="cart-item-details">
+                <h4>${product.name}</h4>
+                <p>Model: ${item.model || "None selected"}</p>
+                <p>Price: $${product.price}</p>
+            </div>
+            <div>
+                <input type="number" min="1" value="${item.qty}" class="qty-input" data-id="${item.id}">
+            </div>
+        `;
+        cartItemsList.appendChild(row);
+
+        subtotal += product.price * item.qty;
+    });
+
+    // Coupon logic
+    function applyCoupon() {
+        const code = document.getElementById("coupon-code").value.trim().toUpperCase();
+
+        if (code === "SAVE10") {
+            alert("Coupon applied: 10% off!");
+            // Get current displayed values
+            let subtotal = parseFloat(document.getElementById("subtotal").textContent.replace("$", ""));
+            let shipping = parseFloat(document.getElementById("shipping-cost").textContent.replace("$", ""));
+            let taxes = parseFloat(document.getElementById("taxes").textContent.replace("$", ""));
+
+            // Apply 10% discount
+            const discount = subtotal * 0.10;
+            subtotal = subtotal - discount;
+
+            // Update displayed values
+            document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById("total").textContent = `$${(subtotal + shipping + taxes).toFixed(2)}`;
+        } else {
+            alert("Invalid coupon code.");
+        }
+    }
+
+    // Apply coupon by pressing enter
+    document.getElementById("coupon-code").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            applyCoupon(); 
+        }
+    });
+
+    // Calculate shipping, taxes, total
+    const shipping = subtotal >= 600 ? 0 : 10; //free shipping over $600
+    const taxes = subtotal * 0.15;
+    const total = subtotal + shipping + taxes;
+
+    subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+    shippingEl.textContent = `$${shipping.toFixed(2)}`;
+    taxesEl.textContent = `$${taxes.toFixed(2)}`;
+    totalEl.textContent = `$${total.toFixed(2)}`;
+
+    // Item quantity change 
+    cartItemsList.querySelectorAll(".qty-input").forEach(input => {
+        input.addEventListener("change", e => {
+            const id = Number(e.target.dataset.id);
+            const qty = Number(e.target.value);
+            const cartItem = cart.find(i => i.id === id);
+
+            if (cartItem) {
+                cartItem.qty = qty;
+                localStorage.setItem("cart", JSON.stringify(cart));
+                location.reload(); // refresh totals
+            }
+        });
+    });
+
+    // Next button
+    document.getElementById("next-btn").addEventListener("click", () => {
+        window.location.href = "shipping_details.html";
+    });
+
+    // Cancel button
+    document.getElementById("cancel-btn").addEventListener("click", () => {
+        if (confirm("Clear cart and return to shop?")) {
+            localStorage.removeItem("cart");
+            window.location.href = "shop.html";
+        }
+    });
+
+    // Cart counter functionality
+    const cartCountEl = document.getElementById("cart-count");
+    if (cartCountEl) {
+        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        cartCountEl.textContent = totalQty;
+    }
+})

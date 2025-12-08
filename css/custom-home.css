@@ -1,0 +1,174 @@
+/* ------------------------ BANNER ------------------------ */
+.banner-section h2 {
+    font-size: 28px;
+    color: #444;
+    font-weight: normal;
+}
+.small-line {
+    width: 30%;
+    height: 1px;
+    background: #7b7979;
+    border: none;
+    margin: 40px auto;
+}
+.home-banner-product-grid img {
+    width: 25%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+.shop-button {
+    padding: 12px 28px;
+    background: #2595be81;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 18px;
+}
+.shop-button:hover {
+    background: #2596be;
+}
+/* ------------------------ FEATURED ------------------------ */
+.featured-title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.featured-grid .featured-item {
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+}
+.featured-grid .featured-item:hover {
+    color: #9b9b9b;
+}
+.featured-grid img {
+    border-radius: 6px;
+    width: 90%;
+}
+.arrow {
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+}
+.arrow-left { 
+    left: 0; 
+}
+.arrow-right { 
+    right: 0; 
+}
+.arrow:hover { 
+    color: #666; 
+}
+/* ------------------------ NEWSLETTER ------------------------ */
+.newsletter-input {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.newsletter-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #2595be81;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.newsletter-btn:hover {
+    background: #2596be;
+}
+
+/* ------------------------ PRODUCT GRID ------------------------ */
+.product-columns {
+    column-count: 3;
+    column-gap: 20px;
+    width: 100%;
+}
+
+.product-item {
+    break-inside: avoid;
+    display: block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* SMALL PRODUCTS */
+.product-img-wrapper-small, .product-img-wrapper-big {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+}
+.product-img-wrapper-small{
+    height: 180px;
+}
+.product-img-wrapper-big{
+    height: 380px;
+}
+.product-img-wrapper-small img, .product-img-wrapper-big img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.product-info {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+.product-name { 
+    font-size: 18px; 
+    font-weight: 600; 
+}
+.product-price { 
+    font-size: 16px; 
+    color:#444; 
+}
+.product-stars { 
+    color: gold; 
+    white-space: nowrap; 
+}
+/* ------------------------ ABOUT ------------------------ */
+.about {
+    text-align: center;
+    max-width: 80%;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+.about h2 {
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+.about p {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+/* FLOATING ANCHOR */
+#floating-anchor {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #0b7285;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 999;
+}
+@media (max-width: 768px) {
+    .featured-section .arrow-left {
+        left: -15px;   
+    }
+    .featured-section .arrow-right {
+        right: -15px;
+    }
+}
